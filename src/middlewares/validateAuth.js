@@ -10,7 +10,7 @@ export async function validateAuth(req, res, next) {
 
     try {
         const session = (await db.query(`
-        SELECT users.id, users.name, users.email , sessions.token
+        SELECT users.id, users.name, users.email, sessions.token
         FROM sessions
         LEFT JOIN users
         ON users.id = sessions."userId"

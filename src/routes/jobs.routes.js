@@ -5,9 +5,9 @@ import { showJobs, showMyJobs, createJob, updateJob, deleteJob } from "../contro
 const jobsRouter = Router();
 
 jobsRouter.get("/jobs", showJobs);
-jobsRouter.get("/jobs/me", showMyJobs);
-jobsRouter.post("/jobs", createJob);
-jobsRouter.post("/jobs/:id", updateJob);
-jobsRouter.delete("/jobs/:id", deleteJob);
+jobsRouter.get("/jobs/me", validateAuth, showMyJobs);
+jobsRouter.post("/jobs", validateAuth, createJob);
+jobsRouter.post("/jobs/:id", validateAuth, updateJob);
+jobsRouter.delete("/jobs/:id", validateAuth, deleteJob);
 
 export default jobsRouter;
