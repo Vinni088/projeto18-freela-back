@@ -4,10 +4,15 @@ import { db } from "../database/database.connection.js";
 export async function showJobs(req, res) {
     try {
         let services = (await db.query(`
-        SELECT services.*, "servicePhotos"."photoUrl" AS "servicePhoto"
+        SELECT services.id, services."isActive",
+        services.price, services."priceDescription",
+        services."serviceTitle", users.name,
+        "servicePhotos"."photoUrl" AS "servicePhoto"
         FROM services
         LEFT JOIN "servicePhotos"
         ON "servicePhotos"."serviceId" = services.id
+        LEFT JOIN users
+        ON users.id = services."userId";
         `)).rows;
         res.status(200).send(services);
     } catch (err) {
