@@ -3,7 +3,12 @@ import { db } from "../database/database.connection.js";
 /* Exhibitions */
 export async function showJobs(req, res) {
     try {
-        let services = (await db.query(`SELECT * FROM services;`)).rows;
+        let services = (await db.query(`
+        SELECT services.*, "servicePhotos"."photoUrl" AS "servicePhoto"
+        FROM services
+        LEFT JOIN "servicePhotos"
+        ON "servicePhotos"."serviceId" = services.id
+        `)).rows;
         res.status(200).send(services);
     } catch (err) {
         res.status(500).send(err.message);
