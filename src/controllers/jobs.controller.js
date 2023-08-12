@@ -10,6 +10,17 @@ export async function showJobs(req, res) {
     }
 }
 
+export async function showJobsById(req, res) {
+    const { id } = req.params;
+
+    try {
+        let services = (await db.query(`SELECT * FROM services WHERE id = $1;`,[id])).rows;
+        res.status(200).send(services[0]);
+    } catch (err) {
+        res.status(500).send(err.message);
+    }
+}
+
 export async function showMyJobs(req, res) {
     const { id } = res.locals.session;
 
