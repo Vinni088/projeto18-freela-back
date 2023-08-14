@@ -108,7 +108,11 @@ export async function createJob(req, res) {
 }
 
 export async function updateJob(req, res) {
+    const { id } = req.body
     try {
+        let trabalho = (await db.query(`
+        SELECT * FROM SERVICES WHERE id = $1
+        `[id]))
         res.status(201).send("Esta rota vai alterar um trabalho");
     } catch (err) {
         res.status(500).send(err.message);
