@@ -24,7 +24,23 @@ export async function showJobsById(req, res) {
     const { id } = req.params;
 
     try {
-        let services = (await db.query(`SELECT * FROM services WHERE id = $1;`,[id])).rows;
+        let services = (await db.query(`
+        SELECT services.id, services.price,
+        services."priceDescription", services."serviceTitle",
+        users.name AS "serviceProvider", users.phone,
+        users.email, users.city, users.state,
+        "servicePhotos"."photoUrl" AS "servicePhoto",
+        "serviceHistory".talks, "serviceHistory".sales,
+        "serviceHistory"."totalRating"
+        FROM services
+        LEFT JOIN "servicePhotos"
+        ON "servicePhotos"."serviceId" = services.id
+        LEFT JOIN users
+        ON users.id = services."userId"
+        LEFT JOIN "serviceHistory"
+        ON "serviceHistory"."serviceId" = services.id
+        WHERE services.id = $1;
+        `,[id])).rows;
         res.status(200).send(services[0]);
     } catch (err) {
         res.status(500).send(err.message);
@@ -65,7 +81,15 @@ export async function createJob(req, res) {
         RETURNING id
         `,[criandoService.rows[0].id, photoUrl]);
 
-        res.send(addPhoto)
+        let createHistory = await db.query(`
+        INSERT INTO "serviceHistory"
+            ("serviceId")
+        VALUES 
+            ($1)
+        RETURNING id
+        `,[criandoService.rows[0].id]);
+
+        res.send("Serviço Registrado")
     } catch (err) {
         res.status(500).send(err.message);
     }
@@ -86,4 +110,14 @@ export async function deleteJob(req, res) {
         res.status(500).send(err.message);
     }
 }
+/* Use Service */
+export async function createRating(req, res) {
 
+    const { id } = req.params;
+
+    try {
+        res.send(id)
+    } catch (err) {
+        res.status(500).send(err.message);
+    }
+}

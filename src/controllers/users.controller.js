@@ -83,19 +83,3 @@ export async function isLogged(req, res) {
         res.status(500).send(err.message);
     }
 }
-
-export async function createFeedback(req, res) {
-    try {
-        res.status(201).send("Esta rota criará feedbacks");
-    } catch (err) {
-        res.status(500).send(err.message);
-    }
-}
-
-export async function updateFeedback(req, res) {
-    try {
-        res.status(201).send("Esta rota vai alterar feedbacks");
-    } catch (err) {
-        res.status(500).send(err.message);
-    }
-}
