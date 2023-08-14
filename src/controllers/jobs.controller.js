@@ -52,7 +52,18 @@ export async function showMyJobs(req, res) {
     const { id } = res.locals.session;
 
     try {
-        let myServices = (await db.query(`SELECT * FROM services WHERE "userId" = $1;`,[id])).rows;
+        let myServices = (await db.query(`
+        SELECT services.id, services."isActive",
+        services.price, services."priceDescription",
+        services."serviceTitle", users.name,
+        "servicePhotos"."photoUrl" AS "servicePhoto"
+        FROM services
+        LEFT JOIN "servicePhotos"
+        ON "servicePhotos"."serviceId" = services.id
+        LEFT JOIN users
+        ON users.id = services."userId"
+        WHERE services."userId" = $1;;
+        `,[id])).rows;
         res.status(200).send(myServices);
     } catch (err) {
         res.status(500).send(err.message);
