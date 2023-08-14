@@ -27,6 +27,7 @@ export async function showJobsById(req, res) {
         let services = (await db.query(`
         SELECT services.id, services.price,
         services."priceDescription", services."serviceTitle",
+        services."serviceDescription",
         users.name AS "serviceProvider", users.phone,
         users.email, users.city, users.state,
         "servicePhotos"."photoUrl" AS "servicePhoto",
