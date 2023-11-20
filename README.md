@@ -3,7 +3,7 @@ O Get Samurais é uma plataforma com a intenção de conectar pessoas oferecendo
 Este é o repositorio do back-end da aplicação.
 
 # Deploy:
-[Link do projeto](https://projeto18-freela-front-sable.vercel.app/)
+[Link do projeto](https://freela-backend.onrender.com)
 
 # Como funciona?
 Este projeto é uma API REST para atender a aplicação de trabalhos Get Samurais. Ela possui apenas as seguintes entidades:
