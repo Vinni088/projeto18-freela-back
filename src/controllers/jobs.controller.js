@@ -25,21 +25,22 @@ export async function showJobsById(req, res) {
 
     try {
         let services = (await db.query(`
-        SELECT services.id, services.price,
-        services."priceDescription", services."serviceTitle",
-        services."serviceDescription",
-        users.name AS "serviceProvider", users.phone,
-        users.email, users.city, users.state,
-        "servicePhotos"."photoUrl" AS "servicePhoto",
-        "serviceHistory".talks, "serviceHistory".sales,
-        "serviceHistory"."totalRating"
+        SELECT 
+            services.id, services.price,
+            services."priceDescription", services."serviceTitle",
+            services."serviceDescription",
+            users.name AS "serviceProvider", users.phone,
+            users.email, users.city, users.state,
+            "servicePhotos"."photoUrl" AS "servicePhoto",
+            "serviceHistory".talks, "serviceHistory".sales,
+            "serviceHistory"."totalRating"
         FROM services
         LEFT JOIN "servicePhotos"
-        ON "servicePhotos"."serviceId" = services.id
+            ON "servicePhotos"."serviceId" = services.id
         LEFT JOIN users
-        ON users.id = services."userId"
+            ON users.id = services."userId"
         LEFT JOIN "serviceHistory"
-        ON "serviceHistory"."serviceId" = services.id
+            ON "serviceHistory"."serviceId" = services.id
         WHERE services.id = $1;
         `,[id])).rows;
         res.status(200).send(services[0]);
@@ -126,6 +127,7 @@ export async function deleteJob(req, res) {
         res.status(500).send(err.message);
     }
 }
+
 /* Use Service */
 export async function createRating(req, res) {
 
